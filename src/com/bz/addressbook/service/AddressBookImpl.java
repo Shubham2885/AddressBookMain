@@ -29,8 +29,45 @@ public class AddressBookImpl implements IAddressBook {
 	public void showAllContacts() {
 		System.out.println("Showing all contact details....");
 		for(int i=0;i<contactsOfPersons.length;i++) {
-			System.out.println(contactsOfPersons[i]);
+			showContactDetails(contactsOfPersons[i]);
 		}
 	}
 
+	@Override
+	public void search(String firstName) {
+		for(int i=0;i<contactsOfPersons.length;i++) {
+			Contacts contacts = contactsOfPersons[i];
+			if(null != contacts && firstName.equalsIgnoreCase(contacts.getFirstName())) {
+				showContactDetails(contacts);
+			}
+		}
+	}
+
+	private void showContactDetails(Contacts contacts) {
+		if(contacts != null) {
+			System.out.println("******************Contact Details *******************");
+			System.out.println("First Name = "+ contacts.getFirstName());
+			System.out.println("Last Name = "+ contacts.getLastName());
+			System.out.println("Address = "+ contacts.getAddress());
+		}
+	}
+	
+	private int findByMobileNumber(Long mobileNo) {
+		for(int i=0;i<contactsOfPersons.length;i++) {
+			Contacts contacts = contactsOfPersons[i];
+			if(null != contacts && mobileNo == contacts.getPhoneNumber()) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	@Override
+	public void delete(long mobileNo) {
+		int i = findByMobileNumber(mobileNo);
+		if(i != -1) {
+			contactsOfPersons[i] = null;
+		}
+		showAllContacts();
+	}
 }

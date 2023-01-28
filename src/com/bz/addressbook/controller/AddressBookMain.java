@@ -9,7 +9,7 @@ import com.bz.addressbook.service.AddressBookImpl;
 public class AddressBookMain {
 
 	private static final Scanner SCANNER = new Scanner(System.in);
-	
+
 	public static void main(String[] args) {
 		int i = 0;
 		IAddressBook addressBook = new AddressBookImpl();
@@ -21,7 +21,7 @@ public class AddressBookMain {
 			System.out.println("5 Search Contact (using first or last names)");
 			System.out.println("Enter you choice...");
 			int ch = SCANNER.nextInt();
-			
+
 			switch (ch) {
 			case 1:
 				System.out.println("creating contact...");
@@ -29,28 +29,42 @@ public class AddressBookMain {
 				int index = addressBook.createContact(contacts);
 				System.out.println("Contacts id ="+index);
 				break;
-				
+
 			case 2:	addressBook.showAllContacts();
-				break;
+			break;
+
+			case 4: System.out.println("Enter the mobile number to delete...");
+			long mobileNumber = SCANNER.nextLong();
+			addressBook.delete(mobileNumber);
+			break;
+
+			case 5: System.out.println("Enter the first name to search...");
+			String firstName = SCANNER.next();
+			addressBook.search(firstName);
+			break;
 			default:
 				System.out.println("Invalid choice...");
 				break;
 			}
-			
+
 			System.out.println("Do you want to contineu...press 1");
 			i = SCANNER.nextInt();
 		}while(i==1);
 	}
-	
+
 	private static Contacts getContacts() {
 		Contacts contacts = new Contacts();
 		System.out.println("Enter First Name");
 		String firstName = SCANNER.next();
 		contacts.setFirstName(firstName);
-		
+
 		System.out.println("Enter Last Name");
 		String lastName = SCANNER.next();
 		contacts.setLastName(lastName);
+		
+		System.out.println("Enter Mobile Number");
+		long mobileNumber = SCANNER.nextLong();
+		contacts.setPhoneNumber(mobileNumber);
 		return contacts;
 	}
 }
