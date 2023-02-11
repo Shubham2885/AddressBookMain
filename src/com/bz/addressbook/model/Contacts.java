@@ -2,13 +2,13 @@ package com.bz.addressbook.model;
 
 public class Contacts {
 
-	private String firstName = "Shubham";
+	private String firstName;
 	private String lastName;
 	private String address;
 	private String city;
 	private String state;
 	private int zip;
-	private long phoneNumber;
+	private String phoneNumber;
 	private String email;
 	
 	public String getFirstName() {
@@ -47,10 +47,10 @@ public class Contacts {
 	public void setZip(int zip) {
 		this.zip = zip;
 	}
-	public long getPhoneNumber() {
+	public String getPhoneNumber() {
 		return phoneNumber;
 	}
-	public void setPhoneNumber(long phoneNumber) {
+	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
 	public String getEmail() {

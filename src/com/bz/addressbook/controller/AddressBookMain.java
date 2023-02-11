@@ -2,6 +2,8 @@ package com.bz.addressbook.controller;
 
 import java.util.Scanner;
 
+import com.bz.addressbook.exception.InvalidMobileNumberException;
+import com.bz.addressbook.exception.StartWithCapitalLetterException;
 import com.bz.addressbook.interfaces.IAddressBook;
 import com.bz.addressbook.model.Contacts;
 import com.bz.addressbook.service.AddressBookImpl;
@@ -26,7 +28,22 @@ public class AddressBookMain {
 			case 1:
 				System.out.println("creating contact...");
 				Contacts contacts = getContacts();
-				int index = addressBook.createContact(contacts);
+				int index = 0;
+				try {
+					index = addressBook.createContact(contacts);
+				}catch (InvalidMobileNumberException e) {
+					System.out.println(e);
+					System.out.println("Enter the valid mobile number");
+					String m = SCANNER.next();
+					contacts.setPhoneNumber(m);
+					index = addressBook.createContact(contacts);
+				}catch (StartWithCapitalLetterException e) {
+					System.out.println(e);
+					System.out.println("Please Enter firstName");
+					String f = SCANNER.next();
+					contacts.setFirstName(f);
+					index = addressBook.createContact(contacts);
+				}
 				System.out.println("Contacts id ="+index);
 				break;
 
@@ -63,7 +80,7 @@ public class AddressBookMain {
 		contacts.setLastName(lastName);
 		
 		System.out.println("Enter Mobile Number");
-		long mobileNumber = SCANNER.nextLong();
+		String mobileNumber = SCANNER.next();
 		contacts.setPhoneNumber(mobileNumber);
 		return contacts;
 	}
