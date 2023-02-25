@@ -1,10 +1,13 @@
 package com.bz.addressbook.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import com.bz.addressbook.exception.InvalidMobileNumberException;
+import com.bz.addressbook.exception.StartWithCapitalLetterException;
 import com.bz.addressbook.interfaces.IAddressBook;
 import com.bz.addressbook.model.Contacts;
 import com.bz.addressbook.service.AddressBookImpl;
@@ -32,11 +35,16 @@ public class AddressBookImplTest {
 		Contacts contacts1 = new Contacts();
 		contacts1.setFirstName("amol");
 		contacts1.setPhoneNumber("8773488833");
-		int result2 = addressBook.createContact(contacts1);
-		assertEquals(0, result2);
+		try {
+			int result2 = addressBook.createContact(contacts1);
+			assertEquals(0, result2);
+		}catch (StartWithCapitalLetterException e) {
+			assertEquals("Please Start With Capital Letter....", e.getMessage());
+		}
+		
 	}
 	
-	@Test
+	@Test(expected = InvalidMobileNumberException.class)
 	public void createContactTest3() {
 		Contacts contacts = new Contacts();
 		contacts.setFirstName("Rahul");
