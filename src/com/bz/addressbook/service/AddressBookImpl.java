@@ -1,31 +1,51 @@
 package com.bz.addressbook.service;
 
+import java.util.List;
+
+import com.bz.addressbook.dao.AddressBookDao;
 import com.bz.addressbook.exception.InvalidMobileNumberException;
 import com.bz.addressbook.exception.StartWithCapitalLetterException;
 import com.bz.addressbook.interfaces.IAddressBook;
+import com.bz.addressbook.interfaces.IAddressBookDao;
 import com.bz.addressbook.model.Contacts;
-import com.bz.addressbook.utility.ILinkedList;
-import com.bz.addressbook.utility.LinkedList;
 import com.bz.addressbook.utility.RegexUtil;
+import com.bz.addressbook.validator.Validator;
 
 public class AddressBookImpl implements IAddressBook {
 
 //	private static Contacts[] contactsOfPersons = new Contacts[10];
 //	private ArrayList<Contacts> contactsList = new ArrayList<Contacts>();
 	
-	private ILinkedList<Contacts> linkedList = new LinkedList<Contacts>();
+//	private ILinkedList<Contacts> linkedList = new LinkedList<Contacts>();
+//	private FileHandling fileHandling = new FileHandling();
+	private IAddressBookDao addressBookDao;
+	
+	public AddressBookImpl() {
+		addressBookDao = new AddressBookDao();
+	}
 	
 	@Override
 	public int createContact(Contacts contacts) throws InvalidMobileNumberException, StartWithCapitalLetterException {
 		System.out.println("AddressBookImpl :: createContact :: contacts");
-		if(RegexUtil.isStartWithCapitalLetter(contacts.getFirstName())) {
-			if(RegexUtil.isValidMobileNumber(contacts.getPhoneNumber())) {
-				linkedList.add(contacts);
-				return linkedList.size();
-			}
-		}else {
-			System.err.println("first latter should be capital...");
+//		if(RegexUtil.isStartWithCapitalLetter(contacts.getFirstName())) {
+//			if(RegexUtil.isValidMobileNumber(contacts.getPhoneNumber())) {
+//				final List<Contacts> list = fileHandling.writeContact(contacts);
+//				return list.size();
+//			}
+//		}else {
+//			System.err.println("first latter should be capital...");
+//		}
+		try {
+			Validator.validateFields(contacts);
+			addressBookDao.save(contacts);
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
 		}
+//		}
+//		final List<Contacts> list = fileHandling.writeContact(contacts);
+//		return list.size();
 		return 0;
 	}
 	
@@ -44,7 +64,12 @@ public class AddressBookImpl implements IAddressBook {
 //		for(int i=0;i<contactsList.size();i++) {
 //			showContactDetails(contactsList.get(i));
 //		}
-		linkedList.printLinkedList();
+//		linkedList.printLinkedList();
+//		List<Contacts> contacts = fileHandling.readAllContacts();
+		List<Contacts> contacts = addressBookDao.findAll();
+		for(Contacts contacts2 : contacts) {
+			showContactDetails(contacts2);
+		}
 	}
 
 	@Override
@@ -55,6 +80,10 @@ public class AddressBookImpl implements IAddressBook {
 //				showContactDetails(contacts);
 //			}
 //		}
+		List<Contacts> contacts = addressBookDao.findByFirstName(firstName);
+		for(Contacts contacts2 : contacts) {
+			showContactDetails(contacts2);
+		}
 	}
 
 	private void showContactDetails(Contacts contacts) {

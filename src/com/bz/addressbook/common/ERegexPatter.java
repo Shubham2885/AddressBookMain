@@ -1,4 +1,4 @@
-package com.bz.addressbook.utility;
+package com.bz.addressbook.common;
 
 public enum ERegexPatter {
 
