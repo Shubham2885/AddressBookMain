@@ -21,6 +21,7 @@ public class AddressBookMain {
 			System.out.println("3 update Contact (using mobile number)");
 			System.out.println("4 Delete Contact (using mobile number)");
 			System.out.println("5 Search Contact (using first or last names)");
+			System.out.println("6 Commit)");
 			System.out.println("Enter you choice...");
 			int ch = SCANNER.nextInt();
 
@@ -58,6 +59,10 @@ public class AddressBookMain {
 			case 5: System.out.println("Enter the first name to search...");
 			String firstName = SCANNER.next();
 			addressBook.search(firstName);
+			break;
+			
+			case 6: 
+			addressBook.commit();
 			break;
 			default:
 				System.out.println("Invalid choice...");

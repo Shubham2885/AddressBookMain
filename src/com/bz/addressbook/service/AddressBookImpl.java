@@ -36,13 +36,14 @@ public class AddressBookImpl implements IAddressBook {
 //			System.err.println("first latter should be capital...");
 //		}
 		try {
-			Validator.validateFields(contacts);
+//			Validator.validateFields(contacts);
 			addressBookDao.save(contacts);
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		}
+		} 
+//		catch (IllegalAccessException e) {
+//			e.printStackTrace();
+//		}
 //		}
 //		final List<Contacts> list = fileHandling.writeContact(contacts);
 //		return list.size();
@@ -112,5 +113,10 @@ public class AddressBookImpl implements IAddressBook {
 //			contactsList.remove(i);
 //		}
 //		showAllContacts();
+	}
+
+	@Override
+	public void commit() {
+		addressBookDao.commit();
 	}
 }

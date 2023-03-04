@@ -10,4 +10,5 @@ public interface IAddressBook {
 	void showAllContacts();
 	void search(String firstName);
 	void delete(long mobileNo);
+	void commit();
 }

@@ -17,4 +17,6 @@ public interface IAddressBookDao {
 	List<Contacts> findByFirstName(final String firstName);
 	
 	List<Contacts> findAll();
+	
+	void commit();
 }
